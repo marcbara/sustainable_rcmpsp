@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Legacy code (superseded)
+old-nsgaii/
+
+# Paper
+paper/
+
+# Internal working documents
+RESEARCH.md
+FORMAT.md
+
+# Reference documents (large binaries, not code)
+*.pdf
+*.docx
+*.xlsx
+
+# OS
+.DS_Store
+Thumbs.db

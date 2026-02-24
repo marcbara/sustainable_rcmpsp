@@ -1,0 +1,4031 @@
+{
+  "meta": {
+    "format_version": "1.0",
+    "name": "Sustainable RCMPSP – Construction Portfolio",
+    "source": "Portfolio_ML.xlsx / Sánchez et al. 2023",
+    "num_projects": 3,
+    "num_resources": 12,
+    "total_activities": 130,
+    "description": "Bi-objective RCMPSP for a 3-project construction portfolio. Objectives: (1) minimize total delay penalties across projects; (2) minimize total water consumption during the construction phase. Includes FS+lag precedences and inter-project dependencies."
+  },
+  "resources": [
+    {
+      "id": "R1",
+      "name": "Architect Sr",
+      "type": "renewable",
+      "capacity": 3
+    },
+    {
+      "id": "R2",
+      "name": "Architect Jr",
+      "type": "renewable",
+      "capacity": 5
+    },
+    {
+      "id": "R3",
+      "name": "Engineer Sr",
+      "type": "renewable",
+      "capacity": 2
+    },
+    {
+      "id": "R4",
+      "name": "Engineer Jr",
+      "type": "renewable",
+      "capacity": 4
+    },
+    {
+      "id": "R5",
+      "name": "PM 1",
+      "type": "renewable",
+      "capacity": 1
+    },
+    {
+      "id": "R6",
+      "name": "PM 2",
+      "type": "renewable",
+      "capacity": 1
+    },
+    {
+      "id": "R7",
+      "name": "PM 3",
+      "type": "renewable",
+      "capacity": 1
+    },
+    {
+      "id": "R8",
+      "name": "Quality Manager Sr",
+      "type": "renewable",
+      "capacity": 2
+    },
+    {
+      "id": "R9",
+      "name": "Quality Manager Jr",
+      "type": "renewable",
+      "capacity": 1
+    },
+    {
+      "id": "R10",
+      "name": "Lawyer and Legal Specialist",
+      "type": "renewable",
+      "capacity": 2
+    },
+    {
+      "id": "R11",
+      "name": "Procurement Manager",
+      "type": "renewable",
+      "capacity": 1
+    },
+    {
+      "id": "R12",
+      "name": "Procurement Assistant",
+      "type": "renewable",
+      "capacity": 2
+    }
+  ],
+  "projects": {
+    "P1": {
+      "release_date": 0,
+      "deadline": 329,
+      "penalty_per_day": 500,
+      "water_m3_per_day": 250,
+      "activities": [
+        {
+          "id": 2,
+          "name": "Contract signing",
+          "section": "Pre-Construction",
+          "duration": 0,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 1,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 3,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 3,
+          "name": "Project planning",
+          "section": "Pre-Construction",
+          "duration": 30,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 1,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 4,
+              "lag": 0
+            },
+            {
+              "id": 5,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 4,
+          "name": "Project execution and controlling",
+          "section": "Pre-Construction",
+          "duration": 150,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 1,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 56,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 5,
+          "name": "Conceptual design",
+          "section": "Pre-Construction",
+          "duration": 5,
+          "demands": {
+            "R1": 2,
+            "R2": 2,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 6,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 6,
+          "name": "Functional requirements definition",
+          "section": "Pre-Construction",
+          "duration": 5,
+          "demands": {
+            "R1": 1,
+            "R2": 1,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 7,
+              "lag": 0
+            },
+            {
+              "id": 8,
+              "lag": 0
+            },
+            {
+              "id": 9,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 7,
+          "name": "Zone 1 design",
+          "section": "Pre-Construction",
+          "duration": 8,
+          "demands": {
+            "R1": 2,
+            "R2": 3,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 10,
+              "lag": 0
+            },
+            {
+              "id": 11,
+              "lag": 0
+            },
+            {
+              "id": 12,
+              "lag": 0
+            },
+            {
+              "id": 13,
+              "lag": 0
+            },
+            {
+              "id": 14,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 8,
+          "name": "Zone 2 design",
+          "section": "Pre-Construction",
+          "duration": 8,
+          "demands": {
+            "R1": 2,
+            "R2": 3,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 10,
+              "lag": 0
+            },
+            {
+              "id": 11,
+              "lag": 0
+            },
+            {
+              "id": 12,
+              "lag": 0
+            },
+            {
+              "id": 13,
+              "lag": 0
+            },
+            {
+              "id": 29,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 9,
+          "name": "Zone 3 design",
+          "section": "Pre-Construction",
+          "duration": 8,
+          "demands": {
+            "R1": 2,
+            "R2": 3,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 10,
+              "lag": 0
+            },
+            {
+              "id": 11,
+              "lag": 0
+            },
+            {
+              "id": 12,
+              "lag": 0
+            },
+            {
+              "id": 13,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 10,
+          "name": "Construction tramits",
+          "section": "Pre-Construction",
+          "duration": 30,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 1,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 14,
+              "lag": 0
+            },
+            {
+              "id": 29,
+              "lag": 0
+            },
+            {
+              "id": 54,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 11,
+          "name": "Operations licenses",
+          "section": "Pre-Construction",
+          "duration": 25,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 1,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 54,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 12,
+          "name": "Insurance contract",
+          "section": "Pre-Construction",
+          "duration": 9,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 1,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 54,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 13,
+          "name": "Bidding",
+          "section": "Pre-Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 1,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 14,
+              "lag": 0
+            },
+            {
+              "id": 15,
+              "lag": 0
+            },
+            {
+              "id": 16,
+              "lag": 0
+            },
+            {
+              "id": 29,
+              "lag": 0
+            },
+            {
+              "id": 30,
+              "lag": 0
+            },
+            {
+              "id": 31,
+              "lag": 0
+            },
+            {
+              "id": 42,
+              "lag": 0
+            },
+            {
+              "id": 43,
+              "lag": 0
+            },
+            {
+              "id": 41,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 14,
+          "name": "Pipeline system zone 1",
+          "section": "Construction",
+          "duration": 7,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 1
+          },
+          "successors": [
+            {
+              "id": 15,
+              "lag": 0
+            },
+            {
+              "id": 23,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": [
+            {
+              "project": "P2",
+              "id": 9,
+              "lag": 0
+            },
+            {
+              "project": "P3",
+              "id": 8,
+              "lag": 0
+            }
+          ]
+        },
+        {
+          "id": 15,
+          "name": "Electrical system zone 1",
+          "section": "Construction",
+          "duration": 10,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 17,
+              "lag": 0
+            },
+            {
+              "id": 18,
+              "lag": 0
+            },
+            {
+              "id": 19,
+              "lag": 0
+            },
+            {
+              "id": 20,
+              "lag": 0
+            },
+            {
+              "id": 21,
+              "lag": 0
+            },
+            {
+              "id": 16,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 16,
+          "name": "Air Condition System zone 1",
+          "section": "Construction",
+          "duration": 5,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 17,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 17,
+          "name": "Floor adaptation zone 1",
+          "section": "Construction",
+          "duration": 3,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 18,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 18,
+          "name": "Installation of mirrors",
+          "section": "Construction",
+          "duration": 2,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 19,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 19,
+          "name": "Replacement of toilets zone 1",
+          "section": "Construction",
+          "duration": 5,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 25,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 20,
+          "name": "Installation of stair",
+          "section": "Construction",
+          "duration": 7,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 21,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 21,
+          "name": "Elevator replacement",
+          "section": "Construction",
+          "duration": 7,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 22,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 22,
+          "name": "Installation of turnstiles for employee entry",
+          "section": "Construction",
+          "duration": 2,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 23,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 23,
+          "name": "Installation of fiber optics for WiFi zone 1",
+          "section": "Construction",
+          "duration": 1,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 24,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 24,
+          "name": "Installation of water dispensers",
+          "section": "Construction",
+          "duration": 1,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 25,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 25,
+          "name": "Wall patching on floor 1",
+          "section": "Construction",
+          "duration": 8,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 26,
+              "lag": 5
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 26,
+          "name": "Painting walls on floor 1",
+          "section": "Construction",
+          "duration": 5,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 27,
+              "lag": 0
+            },
+            {
+              "id": 28,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 27,
+          "name": "Adaptation and installation of machinary",
+          "section": "Construction",
+          "duration": 6,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 28,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 28,
+          "name": "Furniture installation",
+          "section": "Construction",
+          "duration": 2,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 53,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 29,
+          "name": "Pipeline system zone 2",
+          "section": "Construction",
+          "duration": 6,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 30,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 30,
+          "name": "Electrical system zone 2",
+          "section": "Construction",
+          "duration": 9,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 32,
+              "lag": 0
+            },
+            {
+              "id": 31,
+              "lag": 0
+            },
+            {
+              "id": 33,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 31,
+          "name": "Air Condition System zone 2",
+          "section": "Construction",
+          "duration": 5,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 32,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 32,
+          "name": "Floor adaptation zone 2",
+          "section": "Construction",
+          "duration": 3,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 34,
+              "lag": 0
+            },
+            {
+              "id": 35,
+              "lag": 0
+            },
+            {
+              "id": 36,
+              "lag": 8
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 33,
+          "name": "Installation electrical stair",
+          "section": "Construction",
+          "duration": 14,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 35,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 34,
+          "name": "Replacement of toilets zone 2",
+          "section": "Construction",
+          "duration": 8,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 35,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 35,
+          "name": "Elevator door adaptation",
+          "section": "Construction",
+          "duration": 3,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 37,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 36,
+          "name": "Installation of fiber optics for WiFi zone 2",
+          "section": "Construction",
+          "duration": 3,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 37,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 37,
+          "name": "Wall patching on floor zone 2",
+          "section": "Construction",
+          "duration": 8,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 38,
+              "lag": 5
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 38,
+          "name": "Painting walls on floor zone 2",
+          "section": "Construction",
+          "duration": 5,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 39,
+              "lag": 0
+            },
+            {
+              "id": 40,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 39,
+          "name": "Nurses room adaptation",
+          "section": "Construction",
+          "duration": 3,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 53,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 40,
+          "name": "Medical consultancy rooms",
+          "section": "Construction",
+          "duration": 8,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 41,
+              "lag": 0
+            },
+            {
+              "id": 53,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 41,
+          "name": "Pipeline system zone 3",
+          "section": "Construction",
+          "duration": 6,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 42,
+              "lag": 0
+            },
+            {
+              "id": 46,
+              "lag": 0
+            },
+            {
+              "id": 47,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 42,
+          "name": "Electrical system zone 3",
+          "section": "Construction",
+          "duration": 9,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 43,
+              "lag": 0
+            },
+            {
+              "id": 45,
+              "lag": 5
+            },
+            {
+              "id": 47,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 43,
+          "name": "Air Condition System zone 3",
+          "section": "Construction",
+          "duration": 5,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 44,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 44,
+          "name": "Replacement of toilets zone 3",
+          "section": "Construction",
+          "duration": 3,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 46,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 45,
+          "name": "Elevator door adaptation",
+          "section": "Construction",
+          "duration": 2,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 48,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 46,
+          "name": "Installation of fiber optics for WiFi zone 3",
+          "section": "Construction",
+          "duration": 2,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 48,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 47,
+          "name": "Industrial kitchen installment",
+          "section": "Construction",
+          "duration": 10,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 48,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 48,
+          "name": "Wall patching on floor zone 3",
+          "section": "Construction",
+          "duration": 8,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 49,
+              "lag": 5
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 49,
+          "name": "Painting walls on floor zone 3",
+          "section": "Construction",
+          "duration": 5,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 50,
+              "lag": 0
+            },
+            {
+              "id": 51,
+              "lag": 0
+            },
+            {
+              "id": 52,
+              "lag": 2
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 50,
+          "name": "Clients room adaptation",
+          "section": "Construction",
+          "duration": 3,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 53,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 51,
+          "name": "Dining room adaptation",
+          "section": "Construction",
+          "duration": 3,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 53,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 52,
+          "name": "Control Center installment",
+          "section": "Construction",
+          "duration": 1,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 53,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 53,
+          "name": "Equipment functionality test",
+          "section": "Construction",
+          "duration": 3,
+          "demands": {
+            "R1": 1,
+            "R2": 0,
+            "R3": 1,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 1,
+            "R9": 1,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 54,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 54,
+          "name": "Final test supporting document",
+          "section": "Construction",
+          "duration": 1,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 1,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 1,
+            "R9": 1,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 55,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 55,
+          "name": "Operations manual",
+          "section": "Construction",
+          "duration": 1,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 1,
+            "R9": 1,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 56,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 56,
+          "name": "Contracts closure",
+          "section": "Post-Construction",
+          "duration": 3,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 1,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 1,
+            "R11": 1,
+            "R12": 1
+          },
+          "successors": [
+            {
+              "id": 57,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 57,
+          "name": "Project closing report",
+          "section": "Post-Construction",
+          "duration": 1,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 1,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 58,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 58,
+          "name": "ACCEPTANCE Project 1",
+          "section": "Post-Construction",
+          "duration": 0,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [],
+          "external_predecessors": []
+        }
+      ]
+    },
+    "P2": {
+      "release_date": 7,
+      "deadline": 811,
+      "penalty_per_day": 700,
+      "water_m3_per_day": 350,
+      "activities": [
+        {
+          "id": 2,
+          "name": "Contract signing",
+          "section": "Pre-Construction",
+          "duration": 0,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 3,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 3,
+          "name": "Project planning",
+          "section": "Pre-Construction",
+          "duration": 60,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 1,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 4,
+              "lag": 0
+            },
+            {
+              "id": 5,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 4,
+          "name": "Project execution and controlling",
+          "section": "Pre-Construction",
+          "duration": 500,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 1,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 33,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 5,
+          "name": "Documentation analysis",
+          "section": "Pre-Construction",
+          "duration": 30,
+          "demands": {
+            "R1": 2,
+            "R2": 2,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 6,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 6,
+          "name": "Consultation results report",
+          "section": "Pre-Construction",
+          "duration": 30,
+          "demands": {
+            "R1": 1,
+            "R2": 1,
+            "R3": 1,
+            "R4": 1,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 7,
+              "lag": 0
+            },
+            {
+              "id": 8,
+              "lag": 5
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 7,
+          "name": "Architectural design",
+          "section": "Pre-Construction",
+          "duration": 20,
+          "demands": {
+            "R1": 1,
+            "R2": 0,
+            "R3": 2,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 9,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 8,
+          "name": "Lanscape design",
+          "section": "Pre-Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 1,
+            "R2": 2,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 9,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 9,
+          "name": "Final design",
+          "section": "Pre-Construction",
+          "duration": 20,
+          "demands": {
+            "R1": 1,
+            "R2": 3,
+            "R3": 2,
+            "R4": 2,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 10,
+              "lag": 0
+            },
+            {
+              "id": 11,
+              "lag": 0
+            },
+            {
+              "id": 12,
+              "lag": 0
+            },
+            {
+              "id": 13,
+              "lag": 20
+            },
+            {
+              "id": 14,
+              "lag": 35
+            },
+            {
+              "id": 15,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 10,
+          "name": "Legal permits",
+          "section": "Pre-Construction",
+          "duration": 30,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 2,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 16,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 11,
+          "name": "Environmental permits",
+          "section": "Pre-Construction",
+          "duration": 30,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 1,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 16,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 12,
+          "name": "Construction license",
+          "section": "Pre-Construction",
+          "duration": 30,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 2,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 16,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 13,
+          "name": "Providers contracts",
+          "section": "Pre-Construction",
+          "duration": 45,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 1,
+            "R12": 2
+          },
+          "successors": [
+            {
+              "id": 17,
+              "lag": 0
+            },
+            {
+              "id": 18,
+              "lag": 0
+            },
+            {
+              "id": 19,
+              "lag": 0
+            },
+            {
+              "id": 20,
+              "lag": 0
+            },
+            {
+              "id": 21,
+              "lag": 0
+            },
+            {
+              "id": 22,
+              "lag": 0
+            },
+            {
+              "id": 23,
+              "lag": 0
+            },
+            {
+              "id": 24,
+              "lag": 0
+            },
+            {
+              "id": 25,
+              "lag": 0
+            },
+            {
+              "id": 26,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 14,
+          "name": "Components contracts",
+          "section": "Pre-Construction",
+          "duration": 30,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 1,
+            "R12": 2
+          },
+          "successors": [
+            {
+              "id": 27,
+              "lag": 0
+            },
+            {
+              "id": 28,
+              "lag": 0
+            },
+            {
+              "id": 29,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 15,
+          "name": "Procurement documents",
+          "section": "Pre-Construction",
+          "duration": 70,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 1,
+            "R12": 2
+          },
+          "successors": [
+            {
+              "id": 16,
+              "lag": 0
+            },
+            {
+              "id": 17,
+              "lag": 0
+            },
+            {
+              "id": 18,
+              "lag": 0
+            },
+            {
+              "id": 19,
+              "lag": 0
+            },
+            {
+              "id": 20,
+              "lag": 0
+            },
+            {
+              "id": 21,
+              "lag": 0
+            },
+            {
+              "id": 22,
+              "lag": 0
+            },
+            {
+              "id": 23,
+              "lag": 0
+            },
+            {
+              "id": 24,
+              "lag": 0
+            },
+            {
+              "id": 25,
+              "lag": 0
+            },
+            {
+              "id": 26,
+              "lag": 0
+            },
+            {
+              "id": 27,
+              "lag": 0
+            },
+            {
+              "id": 28,
+              "lag": 0
+            },
+            {
+              "id": 29,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 16,
+          "name": "Site preparation",
+          "section": "Construction",
+          "duration": 25,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 17,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": [
+            {
+              "project": "P1",
+              "id": 7,
+              "lag": 0
+            },
+            {
+              "project": "P1",
+              "id": 8,
+              "lag": 0
+            },
+            {
+              "project": "P1",
+              "id": 9,
+              "lag": 0
+            },
+            {
+              "project": "P3",
+              "id": 8,
+              "lag": 0
+            }
+          ]
+        },
+        {
+          "id": 17,
+          "name": "Sanitary Water system",
+          "section": "Construction",
+          "duration": 18,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 18,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 18,
+          "name": "Electrical system",
+          "section": "Construction",
+          "duration": 43,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 19,
+              "lag": 0
+            },
+            {
+              "id": 20,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 19,
+          "name": "Soccer field",
+          "section": "Construction",
+          "duration": 36,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 20,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 20,
+          "name": "Changing rooms & toilettes",
+          "section": "Construction",
+          "duration": 39,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 21,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 21,
+          "name": "Gym",
+          "section": "Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 22,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 22,
+          "name": "Leisure area",
+          "section": "Construction",
+          "duration": 7,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 23,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 23,
+          "name": "Garden",
+          "section": "Construction",
+          "duration": 10,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 24,
+              "lag": 0
+            },
+            {
+              "id": 27,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 24,
+          "name": "Roads",
+          "section": "Construction",
+          "duration": 10,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 25,
+              "lag": 0
+            },
+            {
+              "id": 26,
+              "lag": 0
+            },
+            {
+              "id": 27,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 25,
+          "name": "Decorative elements",
+          "section": "Construction",
+          "duration": 5,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 27,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 26,
+          "name": "Lagoon",
+          "section": "Construction",
+          "duration": 60,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 27,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 27,
+          "name": "Urban metallic components installment",
+          "section": "Construction",
+          "duration": 22,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 28,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 28,
+          "name": "Soccer field and leisure zone components installment",
+          "section": "Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 29,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 29,
+          "name": "Installation of water dispensers",
+          "section": "Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 30,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 30,
+          "name": "Equipment functionality test",
+          "section": "Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 1,
+            "R2": 1,
+            "R3": 1,
+            "R4": 1,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 2,
+            "R9": 1,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 31,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 31,
+          "name": "Final test supporting document",
+          "section": "Construction",
+          "duration": 10,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 2,
+            "R4": 3,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 1,
+            "R9": 1,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 32,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 32,
+          "name": "Operations manual",
+          "section": "Construction",
+          "duration": 5,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 1,
+            "R4": 1,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 1,
+            "R9": 1,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 33,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 33,
+          "name": "Contracts closure",
+          "section": "Post-Construction",
+          "duration": 3,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 1,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 1,
+            "R11": 1,
+            "R12": 1
+          },
+          "successors": [
+            {
+              "id": 34,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 34,
+          "name": "Project closing report",
+          "section": "Post-Construction",
+          "duration": 1,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 1,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 35,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 35,
+          "name": "ACCEPTANCE Project 1",
+          "section": "Post-Construction",
+          "duration": 0,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [],
+          "external_predecessors": []
+        }
+      ]
+    },
+    "P3": {
+      "release_date": 14,
+      "deadline": 1317,
+      "penalty_per_day": 900,
+      "water_m3_per_day": 300,
+      "activities": [
+        {
+          "id": 2,
+          "name": "Contract signing",
+          "section": "Pre-Construction",
+          "duration": 0,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 3,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 3,
+          "name": "Project planning",
+          "section": "Pre-Construction",
+          "duration": 40,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 1,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 4,
+              "lag": 0
+            },
+            {
+              "id": 5,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 4,
+          "name": "Project execution and controlling",
+          "section": "Pre-Construction",
+          "duration": 850,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 1,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 38,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 5,
+          "name": "Area survey",
+          "section": "Pre-Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 3,
+            "R2": 2,
+            "R3": 2,
+            "R4": 3,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 6,
+              "lag": 5
+            },
+            {
+              "id": 8,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 6,
+          "name": "Topographic study",
+          "section": "Pre-Construction",
+          "duration": 8,
+          "demands": {
+            "R1": 2,
+            "R2": 3,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 7,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 7,
+          "name": "Conceptual design",
+          "section": "Pre-Construction",
+          "duration": 8,
+          "demands": {
+            "R1": 3,
+            "R2": 5,
+            "R3": 2,
+            "R4": 4,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 8,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 8,
+          "name": "Architectural design",
+          "section": "Pre-Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 3,
+            "R2": 5,
+            "R3": 2,
+            "R4": 4,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 9,
+              "lag": 0
+            },
+            {
+              "id": 13,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 9,
+          "name": "Bidding",
+          "section": "Pre-Construction",
+          "duration": 32,
+          "demands": {
+            "R1": 1,
+            "R2": 1,
+            "R3": 1,
+            "R4": 1,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 1,
+            "R12": 2
+          },
+          "successors": [
+            {
+              "id": 14,
+              "lag": 0
+            },
+            {
+              "id": 26,
+              "lag": 0
+            },
+            {
+              "id": 22,
+              "lag": 0
+            },
+            {
+              "id": 10,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 10,
+          "name": "Equipment contracts",
+          "section": "Pre-Construction",
+          "duration": 14,
+          "demands": {
+            "R1": 1,
+            "R2": 1,
+            "R3": 1,
+            "R4": 1,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 1,
+            "R12": 2
+          },
+          "successors": [
+            {
+              "id": 30,
+              "lag": 0
+            },
+            {
+              "id": 31,
+              "lag": 0
+            },
+            {
+              "id": 32,
+              "lag": 0
+            },
+            {
+              "id": 11,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 11,
+          "name": "Legal permits",
+          "section": "Pre-Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 2,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 14,
+              "lag": 0
+            },
+            {
+              "id": 12,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 12,
+          "name": "Construction license",
+          "section": "Pre-Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 1,
+            "R2": 0,
+            "R3": 1,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 2,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 14,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 13,
+          "name": "Operations licenses",
+          "section": "Pre-Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 1,
+            "R2": 0,
+            "R3": 1,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 2,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 36,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 14,
+          "name": "Existing structure demolition",
+          "section": "Construction",
+          "duration": 10,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 15,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": [
+            {
+              "project": "P1",
+              "id": 7,
+              "lag": 0
+            },
+            {
+              "project": "P1",
+              "id": 8,
+              "lag": 0
+            },
+            {
+              "project": "P1",
+              "id": 9,
+              "lag": 0
+            },
+            {
+              "project": "P2",
+              "id": 9,
+              "lag": 0
+            }
+          ]
+        },
+        {
+          "id": 15,
+          "name": "Debris removal",
+          "section": "Construction",
+          "duration": 10,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 16,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 16,
+          "name": "Earthmoving works",
+          "section": "Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 17,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 17,
+          "name": "Foundations",
+          "section": "Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 18,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 18,
+          "name": "Reinforced concrete structure",
+          "section": "Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 19,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 19,
+          "name": "Vertical walls",
+          "section": "Construction",
+          "duration": 60,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 20,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 20,
+          "name": "Thermo-acoustic insulation",
+          "section": "Construction",
+          "duration": 30,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 21,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 21,
+          "name": "Walls plaster",
+          "section": "Construction",
+          "duration": 20,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 22,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 22,
+          "name": "Sanitary water system",
+          "section": "Construction",
+          "duration": 42,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 23,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 23,
+          "name": "Pipeline system",
+          "section": "Construction",
+          "duration": 42,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 24,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 24,
+          "name": "Electrical system",
+          "section": "Construction",
+          "duration": 28,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 25,
+              "lag": 0
+            },
+            {
+              "id": 30,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 25,
+          "name": "Mechanical system",
+          "section": "Construction",
+          "duration": 42,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 26,
+              "lag": 0
+            },
+            {
+              "id": 30,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 26,
+          "name": "Floor covering",
+          "section": "Construction",
+          "duration": 30,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 27,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 27,
+          "name": "Windows and doors placement",
+          "section": "Construction",
+          "duration": 30,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 28,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 28,
+          "name": "Wall patching",
+          "section": "Construction",
+          "duration": 45,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 29,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 29,
+          "name": "Painting walls",
+          "section": "Construction",
+          "duration": 50,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 30,
+              "lag": 0
+            },
+            {
+              "id": 31,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 30,
+          "name": "Electrical appliances installment",
+          "section": "Construction",
+          "duration": 60,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 31,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 31,
+          "name": "Sanitary facilities installment",
+          "section": "Construction",
+          "duration": 70,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 32,
+              "lag": 0
+            },
+            {
+              "id": 33,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 32,
+          "name": "Furnitures",
+          "section": "Construction",
+          "duration": 50,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 34,
+              "lag": 0
+            },
+            {
+              "id": 33,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 33,
+          "name": "Equipment functionality test",
+          "section": "Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 1,
+            "R2": 0,
+            "R3": 1,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 2,
+            "R9": 1,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 34,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 34,
+          "name": "Equipment installment acceptance",
+          "section": "Construction",
+          "duration": 15,
+          "demands": {
+            "R1": 2,
+            "R2": 0,
+            "R3": 2,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 2,
+            "R9": 1,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 35,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 35,
+          "name": "Building site final cleaning",
+          "section": "Construction",
+          "duration": 10,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 1,
+            "R9": 1,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 36,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 36,
+          "name": "Final test supporting document",
+          "section": "Construction",
+          "duration": 10,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 2,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 2,
+            "R9": 1,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 37,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 37,
+          "name": "Operations manual",
+          "section": "Construction",
+          "duration": 10,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 2,
+            "R4": 1,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 2,
+            "R9": 1,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 38,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 38,
+          "name": "Contracts closure",
+          "section": "Post-Construction",
+          "duration": 20,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 1,
+            "R4": 2,
+            "R5": 0,
+            "R6": 0,
+            "R7": 1,
+            "R8": 0,
+            "R9": 0,
+            "R10": 2,
+            "R11": 1,
+            "R12": 2
+          },
+          "successors": [
+            {
+              "id": 39,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 39,
+          "name": "Project closing report",
+          "section": "Post-Construction",
+          "duration": 30,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 1,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [
+            {
+              "id": 40,
+              "lag": 0
+            }
+          ],
+          "external_predecessors": []
+        },
+        {
+          "id": 40,
+          "name": "ACCEPTANCE Project 1",
+          "section": "Post-Construction",
+          "duration": 0,
+          "demands": {
+            "R1": 0,
+            "R2": 0,
+            "R3": 0,
+            "R4": 0,
+            "R5": 0,
+            "R6": 0,
+            "R7": 0,
+            "R8": 0,
+            "R9": 0,
+            "R10": 0,
+            "R11": 0,
+            "R12": 0
+          },
+          "successors": [],
+          "external_predecessors": []
+        }
+      ]
+    }
+  }
+}

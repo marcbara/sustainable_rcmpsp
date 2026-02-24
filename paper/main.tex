@@ -1,0 +1,949 @@
+%% ============================================================
+%%  main.tex  —  IJCM submission
+%%  "Trading Delay Penalties for Water Compliance: ..."
+%%  Compile with: pdflatex main && bibtex main && pdflatex main && pdflatex main
+%% ============================================================
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage[top=2.5cm,bottom=2.5cm,left=3cm,right=3cm]{geometry}
+\usepackage{setspace}
+\doublespacing
+
+\usepackage{amsmath,amssymb}
+\usepackage{eurosym}            % \euro symbol
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage[round,authoryear]{natbib}
+\usepackage{algorithmicx}       % base for algpseudocode
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode} % noend = cleaner pseudocode
+% \usepackage{lineno}      % uncomment + \linenumbers for review submission
+
+% ── Notation macros ──────────────────────────────────────────
+\newcommand{\Z}[1]{Z_{#1}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\Qbar}{\bar{Q}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\blam}{\boldsymbol{\lambda}}
+\newcommand{\zstar}{\mathbf{z}^*}
+
+% ── Journal style ────────────────────────────────────────────
+\bibliographystyle{apalike}
+
+%% ============================================================
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+{\LARGE\bfseries Trading Delay Penalties for Water Compliance:\\
+Multi-Objective Scheduling of Construction Portfolios\\
+under Drought\par}
+\vspace{1.5cm}
+{\large
+Marisa Andrea Lostumbo$^{1}$,\quad
+Marc Bara Iniesta$^{2}$,\quad
+Laura Calvet$^{3}$
+\par}
+\vspace{0.8cm}
+{\normalsize
+$^{1}$Universitat Oberta de Catalunya (UOC)\\
+$^{2}$ESADE Business School, Universitat Ramon Llull (URL)\\
+$^{3}$Universitat Aut\`{o}noma de Barcelona (UAB)\\[0.4cm]
+Corresponding author: Marc Bara Iniesta, \texttt{marcoantonio.bara@esade.edu}
+\par}
+\vspace{1cm}
+{\small\textit{To be submitted to the International Journal of Construction Management}}
+\vfill
+{\small February 2026}
+\end{titlepage}
+
+%% ============================================================
+\begin{abstract}
+\noindent
+Water quota violations are a growing financial liability for construction projects
+in drought-prone regions, yet existing scheduling models treat water as an unlimited
+resource.  This paper introduces a multi-project scheduling framework that
+explicitly balances tardiness penalties against daily water-quota violations under
+stochastic drought conditions, enabling project managers to quantify and manage
+water-scarcity risk at portfolio level.
+
+Daily restriction shocks are modelled by a two-state Markov chain that captures
+the persistent drought spells of Mediterranean climates.  A multi-objective
+evolutionary algorithm with a water-arbitrage local-search operator generates
+Pareto-optimal trade-off schedules using a pre-sampled restriction sequence.
+Applied to a representative three-project construction portfolio comprising 130~activities
+and 12~shared renewable resources \citep{Lostumbo2025}, the framework is evaluated
+under three drought-intensity scenarios.
+
+Under mild to moderate drought --- the regime most prevalent in current
+Mediterranean conditions --- the algorithm eliminates all tardiness penalties
+(saving~\euro36,500) while reducing water violations by up to~19.4\% relative to
+a naive, water-unaware baseline schedule.  The marginal cost of water-quota compliance is
+directly readable from the trade-off curve (approximately \euro14.85 per m$^3$
+under mild drought), providing a concrete input for contract negotiations and
+regulatory planning.  Under severe drought, a structural collapse of the trade-off
+curve reveals that scheduling optimisation loses leverage: water violations become
+regime-determined, and risk mitigation must shift from scheduling to technological
+interventions.  This transition point is scenario-specific and was not previously
+quantifiable with existing scheduling frameworks.
+
+The results offer practical decision support for construction managers operating
+under water-restriction regulations, and demonstrate that water-aware scheduling
+delivers its greatest financial value precisely in the moderate-scarcity regimes
+that current climate projections identify as the most likely near-term condition
+for Southern European construction.
+
+\medskip\noindent
+\textbf{Keywords:} multi-project scheduling; water scarcity; drought risk;
+construction sustainability; multi-objective optimisation; evolutionary algorithm;
+decision support
+\end{abstract}
+
+\newpage
+
+%% ============================================================
+\section{Introduction}
+\label{sec:intro}
+% Running head (for journal submission, ≤60 chars):
+% "Delay penalties vs. water compliance in portfolio scheduling"
+
+The construction sector accounts for approximately 9\% of global freshwater
+withdrawals \citep{UN2021}, yet project-scheduling models almost universally treat
+water as an unlimited resource.  In Mediterranean climates this assumption is
+increasingly untenable: prolonged drought episodes of two to four weeks are common,
+and regulatory authorities in Spain, Italy and Greece regularly issue day-specific
+water quotas that penalise over-consumption.  For a mid-size construction portfolio,
+unplanned quota violations can generate fines of tens of thousands of euros and
+trigger cascading delays when water-intensive activities must be suspended and
+rescheduled.
+
+Classical project-scheduling research has focused on the Resource-Constrained
+Multi-Project Scheduling Problem~(RCMPSP), which minimises makespan or tardiness
+subject to precedence and renewable-resource constraints
+\citep{Artigues2026,Hartmann2022}.  A separate, smaller strand of literature has
+incorporated environmental objectives — carbon footprint, water and energy consumption
+— into multi-objective formulations \citep{Barrientos2016}.  However, \emph{water
+quota compliance} differs fundamentally from both streams: it is a time-varying
+stochastic constraint driven by an exogenous climate process, not a fixed resource
+capacity or an aggregate sustainability metric.  The scheduling decision must therefore exploit
+the temporal structure of drought spells: concentrating water-intensive construction
+in the free windows between restriction periods.
+
+This paper addresses that gap by making three contributions:
+
+\begin{enumerate}
+  \item \textbf{Problem formulation.}  We introduce a bi-objective RCMPSP in which
+        the two objectives are (i)~tardiness cost in euros and (ii)~daily water-quota
+        violations in cubic metres.  Restriction shocks follow a two-state Markov
+        chain that captures drought-spell persistence; stochasticity is handled via
+        Sample Average Approximation.
+  \item \textbf{Algorithm.}  We adapt MOEA/D \citep{Zhang2007} to the RCMPSP
+        context, using a priority-vector representation decoded by a Serial Schedule
+        Generation Scheme~(SGS) and augmented with a water-arbitrage local-search
+        operator that explicitly targets restriction windows.
+  \item \textbf{Managerial insight.}  We show that the value of water-aware
+        scheduling is scenario-dependent: it is highest under moderate drought — the
+        regime most aligned with current Mediterranean projections — and degenerates
+        under extreme scarcity where violations become structurally determined by the
+        climate regime rather than the schedule.
+\end{enumerate}
+
+The remainder of the paper is structured as follows.
+Section~\ref{sec:lit} reviews the relevant literature.
+Section~\ref{sec:model} formulates the bi-objective RCMPSP.
+Section~\ref{sec:algo} describes the MOEA/D framework with the water-arbitrage
+operator.
+Section~\ref{sec:case} presents the case study.
+Section~\ref{sec:results} reports and discusses the computational results.
+Section~\ref{sec:conc} concludes.
+
+%% ============================================================
+\section{Literature Review}
+\label{sec:lit}
+
+\subsection{Resource-Constrained Multi-Project Scheduling}
+\label{sec:lit:rcmpsp}
+
+The single-project Resource-Constrained Project Scheduling Problem~(RCPSP) has been
+studied for more than five decades; \citet{Artigues2026} provide a comprehensive
+retrospective.  Its multi-project extension~(RCMPSP) adds shared renewable resources
+and inter-project dependencies, both of which arise naturally in construction
+portfolios.  Early exact approaches \citep{Pritsker1969} are tractable only for
+small instances; the problem is NP-hard in general \citep{Blazewicz1983}.
+
+Population-based metaheuristics dominate the competitive literature.
+\citet{Goncalves2008} demonstrated that a genetic algorithm with an SGS decoder
+outperforms exact solvers on large PSPLIB instances.  For the multi-project case,
+\citet{Browning2010} analysed dependencies between concurrent projects and showed
+that resource contention is the primary driver of portfolio-level delay.
+\citet{Bredael2023} compared nine state-of-the-art metaheuristics on RCMPSP and
+found that no single algorithm dominates across all instance families, motivating
+continued algorithm development.  \citet{Lostumbo2025} studied multi-objective
+construction portfolio scheduling jointly minimising project tardiness and total
+water consumption; while sharing the multi-project setting, that formulation
+optimises a deterministic volume metric, whereas the present work models
+stochastic daily quota compliance under drought --- a distinct regulatory
+constraint that consumption minimisation alone cannot enforce.
+
+\subsection{Sustainability and Water in Construction Scheduling}
+\label{sec:lit:water}
+
+Sustainability objectives in project scheduling have been incorporated since the
+early 2010s, typically through carbon-emission minimisation \citep{Xu2012} or
+energy-cost trade-offs.  Water scarcity as a scheduling dimension remains almost entirely unexplored.
+One of the very few studies that explicitly incorporates a water-footprint
+objective in construction-related environmental optimisation is
+\citet{Barrientos2016}, who applied a genetic algorithm to minimise combined
+water and carbon impacts in railway infrastructure projects.  Their work,
+however, treats water as an aggregate volume metric rather than a time-varying
+regulatory constraint, and does not address the temporal structure of drought
+spells or quota compliance.
+
+Climate projections for Southern Europe \citep{IPCC2021} indicate a 20--40\%
+reduction in summer precipitation by 2050, with increased inter-annual variability
+and more frequent multi-week dry spells.  This climatic signal has direct
+implications for project finance: construction contracts in Spain and Italy
+increasingly contain water-restriction clauses that convert daily violations into
+monetary penalties.  The financial framing shifts water from an abstract
+sustainability metric to a cash-flow risk item, strengthening the case for its
+inclusion in the project-scheduling objective function.
+
+\subsection{Multi-Objective Decomposition Methods}
+\label{sec:lit:moead}
+
+Multi-objective evolutionary algorithms~(MOEAs) differ primarily in how they
+maintain diversity and approximate the Pareto front.  NSGA-II \citep{Deb2002}
+uses non-dominated sorting and crowding distance; SPEA2 \citep{Zitzler2001} employs
+an external archive; SMS-EMOA \citep{Beume2007} selects on hypervolume contribution.
+MOEA/D \citep{Zhang2007} decomposes the multi-objective problem into a set of
+scalar subproblems defined by weight vectors and solves them simultaneously,
+exploiting neighbourhood information to propagate improvements.  \citet{Li2009}
+extended MOEA/D with differential-evolution operators, achieving state-of-the-art
+results on continuous benchmark functions.
+
+In the construction domain, \citet{Yu2025} applied MOEA/D-DE to safety and
+resource-efficiency objectives in single-project scheduling, demonstrating that the
+decomposition framework produces well-distributed Pareto fronts with fewer function
+evaluations than NSGA-II.  These properties motivate the adoption of MOEA/D in the
+present work: the scalarisation-based neighbourhood structure aligns naturally with the
+bi-objective trade-off structure of the problem, and the decomposition into scalar
+subproblems integrates cleanly with the domain-specific water-arbitrage operator
+introduced in Section~\ref{sec:algo}.  No prior work has applied MOEA/D to RCMPSP
+with a water objective.
+
+\subsection{Research Gap}
+\label{sec:lit:gap}
+
+Table~\ref{tab:lit} maps the closest related works across three dimensions: (i)
+multi-project scope, (ii) use of MOEA/D, and (iii) water as a scheduling objective.
+No paper covers all three simultaneously.  In particular, the combination of
+persistent stochastic water quotas, a multi-project portfolio with shared resources,
+and a decomposition-based MOEA constitutes a novel research space.  The present
+paper fills this gap.
+
+\begin{table}[h]
+\caption{Coverage of related work across three dimensions.
+\checkmark\ = addressed; $\times$ = not addressed.}
+\label{tab:lit}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Reference & Multi-project & MOEA/D & Water objective \\
+\midrule
+\citet{Bredael2023}     & \checkmark & $\times$ & $\times$ \\
+\citet{Xu2012}          & \checkmark & $\times$ & $\times$ \\
+\citet{Yu2025}          & $\times$   & \checkmark & $\times$ \\
+\citet{Barrientos2016}  & $\times$   & $\times$ & \checkmark \\
+\citet{Lostumbo2025}     & \checkmark & $\times$ & \checkmark \\
+\textbf{This paper}     & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ============================================================
+\section{Problem Formulation}
+\label{sec:model}
+
+\subsection{Portfolio Model}
+\label{sec:model:portfolio}
+
+Let $\mathcal{P} = \{1,\ldots,M\}$ be a set of $M$~construction projects sharing a
+common workforce organised into $K$~renewable resource types.  Each project
+$p \in \mathcal{P}$ consists of a set of activities $\mathcal{J}_p$; let
+$\mathcal{J} = \bigcup_p \mathcal{J}_p$ with $|\mathcal{J}| = N$ total activities
+(including dummy source/sink nodes of zero duration).  Activity $j \in \mathcal{J}$
+has:
+\begin{itemize}
+  \item duration $d_j \geq 0$ (working days);
+  \item resource requirement $r_{jk} \geq 0$ units of resource type $k$;
+  \item release date $\text{rel}_j \geq 0$ (project cannot start before
+        $\text{rel}_j$).
+\end{itemize}
+
+A set of finish-to-start precedence relations $\mathcal{A}$ (including lag
+variants~$\mathcal{A}^+$ where $j$ must finish at least $\ell_{ij}$ days before $i$
+starts) constrains the start times $s_j \geq 0$.  The renewable capacity of
+resource~$k$ is $C_k$ units per day.
+
+Each project~$p$ has a contractual deadline $D_p$ and a daily tardiness penalty
+$w_p$ (\euro{}/day).  The construction phase of project~$p$ occupies a contiguous set of
+activities $\mathcal{J}_p^c \subseteq \mathcal{J}_p$; during a construction day
+$t$, project~$p$ consumes $\Qbar_p$~m$^3$ of water if at least one activity of
+$\mathcal{J}_p^c$ is in progress.
+
+A feasible schedule is a vector $\mathbf{s} = (s_j)_{j \in \mathcal{J}}$ satisfying:
+
+\begin{align}
+  s_j \geq \text{rel}_j                    & \quad \forall j \in \mathcal{J}
+      \label{eq:rel} \\
+  s_j \geq s_i + d_i + \ell_{ij}          & \quad \forall (i,j) \in \mathcal{A}^+
+      \label{eq:prec} \\
+  \sum_{j: s_j \leq t < s_j + d_j} r_{jk} \leq C_k
+      & \quad \forall k,\, \forall t     \label{eq:res}
+\end{align}
+
+\subsection{Stochastic Water Quota}
+\label{sec:model:water}
+
+Let $T = \max_j (s_j + d_j)$ denote the portfolio horizon.  On day~$t$, the
+regulatory daily water quota is
+\begin{equation}
+  Q_t = \Qbar \cdot (1 - \eps_t), \qquad \eps_t \in [0,1),
+  \label{eq:quota}
+\end{equation}
+where $\Qbar$ is a nominal aggregate quota and $\eps_t$ is a daily restriction
+shock.  We model $\eps_t$ using a two-state Markov chain with states
+$S \in \{R, F\}$ (Restriction, Free):
+\begin{itemize}
+  \item In state~$R$: $\eps_t \sim \mathrm{Uniform}(\eps^-,\eps^+)$, capturing
+        partial or full restriction;
+  \item In state~$F$: $\eps_t = 0$ (no restriction).
+\end{itemize}
+Transition probabilities $p_{RR} = 1 - 1/\mu_R$ and $p_{FF} = 1 - 1/\mu_F$
+parametrise the expected spell lengths $\mu_R$ and $\mu_F$ (days).  The stationary
+fraction of restriction days is $\pi_R = (1-p_{FF})/[(1-p_{RR})+(1-p_{FF})]$.
+
+The Markov chain captures the meteorological persistence of droughts: a sequence of
+independent daily shocks (Bernoulli model) would give the water-arbitrage operator
+no temporal structure to exploit, since all days would be statistically
+equivalent.  With spell lengths of one to three weeks, the operator can meaningfully
+redirect construction activity toward the free windows between restriction episodes.
+Two-state Markov chains are a standard parsimonious model for precipitation
+occurrence in semi-arid climates \citep{Scanlon2023} and provide the minimal
+structure required to represent drought-spell persistence without requiring
+sub-daily meteorological data that is rarely available at project-planning stage.
+
+Following the Sample Average Approximation~(SAA) paradigm \citep{Kleywegt2002}, we
+generate a single realisation $(\eps_0, \ldots, \eps_{H-1})$ from the Markov chain
+with a fixed seed prior to running the optimiser, then treat it as deterministic
+input.  The randomness thus enters through the experimental design (different seeds
+yield different realisations of the same climate scenario), not inside the
+algorithm.
+
+\subsection{Bi-Objective Problem Statement}
+\label{sec:model:biobj}
+
+Given a feasible schedule~$\mathbf{s}$ and a realised restriction sequence
+$(\eps_t)$, the two objective functions are:
+
+\begin{equation}
+  \Z{1}(\mathbf{s}) = \sum_{p \in \mathcal{P}} w_p \cdot \max\!\bigl(0,\;
+  C_p(\mathbf{s}) - D_p\bigr)
+  \label{eq:Z1}
+\end{equation}
+where $C_p(\mathbf{s}) = \max_{j \in \mathcal{J}_p} (s_j + d_j)$ is the completion
+time of project~$p$, and
+
+\begin{equation}
+  \Z{2}(\mathbf{s}) = \sum_{t=0}^{T-1} \max\!\bigl(0,\;
+  \underbrace{\sum_{p:\,t \in \mathcal{T}_p^c(\mathbf{s})} \Qbar_p}_{\text{actual consumption}}
+  -\;Q_t\bigr)
+  \label{eq:Z2}
+\end{equation}
+where $\mathcal{T}_p^c(\mathbf{s}) = \{t : \text{at least one } j \in
+\mathcal{J}_p^c \text{ is in progress at time } t\}$ is the set of active
+construction days for project~$p$ under schedule~$\mathbf{s}$.
+
+$\Z{1}$ is denominated in euros; $\Z{2}$ in cubic metres.  Both are to be
+minimised.  A schedule $\mathbf{s}$ \emph{Pareto-dominates} $\mathbf{s}'$ if
+$\Z{1}(\mathbf{s}) \leq \Z{1}(\mathbf{s}')$ and
+$\Z{2}(\mathbf{s}) \leq \Z{2}(\mathbf{s}')$, with at least one strict inequality.
+The \emph{Pareto front}~$\mathcal{F}^*$ is the set of non-dominated feasible
+schedules.
+
+The formal problem is:
+\begin{equation}
+  \min_{\mathbf{s} \in \mathcal{S}} \bigl(\Z{1}(\mathbf{s}),\; \Z{2}(\mathbf{s})\bigr),
+  \label{eq:biobj}
+\end{equation}
+where $\mathcal{S}$ denotes the feasible set defined by
+constraints~\eqref{eq:rel}--\eqref{eq:res}.
+
+%% ============================================================
+\section{MOEA/D with Water-Arbitrage}
+\label{sec:algo}
+
+\subsection{Solution Representation and SGS Decoder}
+\label{sec:algo:rep}
+
+A solution is represented as a priority vector $\bx = (\pi_1,\ldots,\pi_N)$, a
+permutation of the $N$ activity indices.  The priority vector encodes the order in
+which activities compete for resources; it is decoded to a feasible schedule by the
+Serial Schedule Generation Scheme~(SGS).
+
+The SGS processes activities in the order prescribed by $\bx$.  For each activity
+$j$ in that order, it assigns the earliest start time consistent with release dates
+\eqref{eq:rel}, precedence constraints~\eqref{eq:prec}, and resource
+capacities~\eqref{eq:res}.  The result is a non-preemptive feasible schedule.  This
+representation guarantees that every individual in the population corresponds to a
+feasible schedule, eliminating the need for repair operators.
+
+A \emph{flat-list with jump strategy} \citep{Goncalves2008} is used: at each step,
+the eligible activity set (all predecessors completed, release date satisfied) is
+scanned from front to back; if the first eligible activity cannot be scheduled at
+the current time due to resource contention, the SGS jumps to the earliest future
+time at which its resource requirements can be met, rather than blocking on it.
+This variant is known to reduce makespan inflation on dense networks.
+
+\subsection{MOEA/D Framework}
+\label{sec:algo:moead}
+
+MOEA/D \citep{Zhang2007} decomposes the bi-objective problem~\eqref{eq:biobj} into
+$H$ scalar subproblems, each characterised by a weight vector
+$\blam^i = (\lambda_1^i, \lambda_2^i)$ with $\lambda_1^i + \lambda_2^i = 1$.
+Weight vectors are uniformly distributed over the simplex.
+
+Each subproblem uses the weighted Tchebycheff aggregation:
+\begin{equation}
+  g^{\mathrm{te}}(\bx \mid \blam^i, \zstar) =
+  \max_{k \in \{1,2\}} \bigl\{ \lambda_k^i \,
+  |\hat{Z}_k(\bx) - z_k^*| \bigr\},
+  \label{eq:tcheby}
+\end{equation}
+where $z_k^* = \min_{\bx \in \text{pop}} Z_k(\bx)$ is the current ideal point and
+$\hat{Z}_k = Z_k / z_k^{\mathrm{nad}}$ normalises objective~$k$ by the current
+nadir point $z_k^{\mathrm{nad}}$. Normalisation ensures that neither objective
+dominates the scalarisation due to scale differences (euros vs.\ cubic metres).
+
+For each subproblem~$i$, a neighbourhood $\mathcal{B}(i)$ of size~$T$ comprises
+the $T$~subproblems whose weight vectors are closest to $\blam^i$ in Euclidean
+distance.  Parents for reproduction are drawn from $\mathcal{B}(i)$.  After
+evaluation, a child replaces the incumbent of any neighbour $j \in \mathcal{B}(i)$
+for which $g^{\mathrm{te}}(\text{child} \mid \blam^j, \zstar) <
+g^{\mathrm{te}}(\bx^j \mid \blam^j, \zstar)$.
+
+\subsection{Variation Operators}
+\label{sec:algo:ops}
+
+\paragraph{Order Crossover (OX).}  Two parents $\bx^a$, $\bx^b$ produce an
+offspring as follows: a contiguous segment of $\bx^a$ is inherited directly; the
+remaining positions are filled in the relative order they appear in $\bx^b$,
+skipping activities already placed.  OX preserves relative ordering — a useful
+property for SGS-decoded scheduling since the relative priority of groups of
+activities is maintained across generations \citep{Davis1985}.
+
+\paragraph{Swap Mutation.}  With probability $1/N$ per position, two randomly
+selected positions in the priority vector are exchanged.  This low mutation rate
+provides exploration without disrupting the priority structure inherited from OX.
+
+\subsection{Water-Arbitrage Local Search}
+\label{sec:algo:wa}
+
+The water-arbitrage operator targets $\Z{2}$ directly by identifying construction
+activities scheduled on high-restriction days and attempting to move them to
+low-restriction windows.  It operates on a decoded schedule~$\mathbf{s}$ rather
+than on the priority vector, then maps the improved schedule back to a modified
+priority vector via a rank-based encoding.
+
+For each application attempt:
+\begin{enumerate}
+  \item Identify the construction day $t^*$ with the highest quota violation:
+        $t^* = \arg\max_t \max(0,\,W_t - Q_t)$, where $W_t$ is actual water
+        consumption on day~$t$.
+  \item Collect the set $\mathcal{A}^*$ of construction activities in progress at
+        $t^*$.
+  \item For each $j \in \mathcal{A}^*$, tentatively shift $j$ to the earliest
+        feasible time $t' > t^*$ such that the new schedule remains feasible and
+        $\Z{2}$ does not increase.  Accept the first improving move found.
+  \item Re-encode the modified schedule as a priority vector by sorting activities
+        by start time, breaking ties by original priority rank.
+\end{enumerate}
+The operator is applied $w_a$ times per offspring (hyperparameter).  It provides
+domain-specific exploitation that random permutation operators cannot replicate.
+
+\subsection{Full Algorithm}
+\label{sec:algo:full}
+
+Algorithm~\ref{alg:moead} gives the complete procedure.
+
+\begin{algorithm}[H]
+\caption{MOEA/D with Water-Arbitrage for Bi-Objective RCMPSP}
+\label{alg:moead}
+\begin{algorithmic}[1]
+\Require Weight vectors $\blam^1,\ldots,\blam^H$; neighbourhood size $T$;
+         max generations $G$; water-arbitrage attempts $w_a$;
+         restriction sequence $(\eps_t)$
+\State Compute neighbourhoods $\mathcal{B}(i)$ for $i=1,\ldots,H$
+\State Initialise population: for each $i$, draw $\bx^i$ uniformly at random;
+       evaluate $\Z{1}(\bx^i)$, $\Z{2}(\bx^i)$ via SGS
+\State Initialise ideal point $z_k^* \leftarrow \min_i Z_k(\bx^i)$, $k=1,2$
+\State Initialise nadir point $z_k^{\mathrm{nad}} \leftarrow \max_i Z_k(\bx^i)$
+\For{$g = 1,\ldots,G$}
+  \For{$i = 1,\ldots,H$}
+    \State Select two parents $a,b$ uniformly from $\mathcal{B}(i)$
+    \State $\mathbf{y} \leftarrow \mathrm{OX}(\bx^a, \bx^b)$
+    \State $\mathbf{y} \leftarrow \mathrm{SwapMutation}(\mathbf{y})$
+    \State $\mathbf{y} \leftarrow \mathrm{WaterArbitrage}(\mathbf{y},\, w_a,\, (\eps_t))$
+    \State Evaluate $\Z{1}(\mathbf{y})$, $\Z{2}(\mathbf{y})$ via SGS
+    \State Update $z_k^*$ and $z_k^{\mathrm{nad}}$ if improved
+    \For{each $j \in \mathcal{B}(i)$}
+      \If{$g^{\mathrm{te}}(\mathbf{y} \mid \blam^j, \zstar) <
+          g^{\mathrm{te}}(\bx^j \mid \blam^j, \zstar)$}
+        \State $\bx^j \leftarrow \mathbf{y}$
+      \EndIf
+    \EndFor
+  \EndFor
+\EndFor
+\State \Return non-dominated set of $\{\bx^1,\ldots,\bx^H\}$
+\end{algorithmic}
+\end{algorithm}
+
+%% ============================================================
+\section{Case Study}
+\label{sec:case}
+
+\subsection{Portfolio Description}
+\label{sec:case:portfolio}
+
+The case study uses a synthetic but realistic construction portfolio first introduced
+in \citet{Lostumbo2025}, where it was designed to be representative of an
+RCMPSP instance in the construction sector.  The portfolio comprises three concurrent
+projects managed by a single general contractor, and is available as an open dataset
+on GitHub together with the Python implementation.
+
+Table~\ref{tab:portfolio} summarises the portfolio characteristics.  The three
+projects collectively involve 130~activities~(including 6 dummy
+source/sink nodes), 12~renewable resource types (architectural, engineering,
+management and procurement staff), and a planning horizon of approximately
+1,400~working days.
+
+\begin{table}[h]
+\caption{Portfolio characteristics. $D_p$: contractual deadline; $w_p$: daily
+tardiness penalty; $\Qbar_p$: nominal daily water quota during construction phase.}
+\label{tab:portfolio}
+\centering
+\begin{tabular}{lcccccc}
+\toprule
+Project & Activities & Pre-const. & Construction & Post-const. & $D_p$ (days) &
+$w_p$ (\euro{}/day) \\
+\midrule
+P1 & 57 & 12 & 42 & 3 & 329 & 500 \\
+P2 & 34 & 14 & 17 & 3 & 811 & 700 \\
+P3 & 39 & 12 & 24 & 3 & 1317 & 900 \\
+\midrule
+\textbf{Total} & \textbf{130} & & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The network includes 10~finish-to-start-with-lag arcs (e.g.\ plastering must dry
+for 5~days before painting commences) and 3~inter-project dependency arcs
+representing shared subcontractor milestones.  The 12~resource types represent
+senior and junior staff in architecture, engineering, project management, quality
+assurance, legal and procurement functions; total daily availability ranges from
+1~to~4~FTEs per type.  Nominal daily water consumption during the construction phase
+is $\Qbar_1 = 250$\,m$^3$, $\Qbar_2 = 350$\,m$^3$, and $\Qbar_3 = 300$\,m$^3$ for
+projects P1, P2 and P3, respectively.
+
+\subsection{Drought Scenarios}
+\label{sec:case:scenarios}
+
+Three drought scenarios are defined by the parameters of the two-state Markov chain
+(Section~\ref{sec:model:water}).  Table~\ref{tab:scenarios} summarises the
+scenario parameters.
+
+\begin{table}[h]
+\caption{Markov chain parameters for the three drought scenarios.
+$\mu_R$: expected restriction-spell length (days);
+$\mu_F$: expected free-spell length (days);
+$\pi_R$: stationary restriction fraction;
+$[\eps^-,\eps^+]$: restriction severity range;
+$\mathbb{E}[\eps_t]$: expected daily shock.}
+\label{tab:scenarios}
+\centering
+\begin{tabular}{lcccccc}
+\toprule
+Scenario & $\mu_R$ & $\mu_F$ & $\pi_R$ & $[\eps^-,\eps^+]$ &
+$\mathbb{E}[\eps_t]$ \\
+\midrule
+Mild     &  7 & 28 & 0.20 & $[0.40,\;0.60]$ & 0.10 \\
+Moderate & 14 & 21 & 0.40 & $[0.55,\;0.75]$ & 0.26 \\
+Severe   & 21 & 14 & 0.60 & $[0.65,\;0.90]$ & 0.47 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The mild scenario (20\% restriction days, 7-day spells) represents a typical
+Mediterranean summer with occasional short drought episodes.  The moderate scenario
+(40\% restriction days, 14-day spells) approximates the current 30-year climatological
+mean for inland Iberia during summer \citep{IPCC2021}.  The severe scenario
+(60\% restriction days, 21-day spells) reflects projections for the 2050 horizon
+under medium-emissions pathways \citep{IPCC2021}.  Spell durations of one to three
+weeks for the restriction state and two to five weeks for the free state are
+consistent with the synoptic persistence of high-pressure blocking systems that
+drive summer droughts in the western Mediterranean basin.
+
+The restriction severity ranges $[\eps^-, \eps^+]$ are calibrated to reflect
+observed regulatory practice in Spain and Portugal, where drought emergency
+protocols typically reduce daily water allowances by 40--90\% relative to normal
+quotas \citep{Scanlon2023}.  The mild range $[0.40, 0.60]$ corresponds to
+\emph{pre-alert} drought status (quotas cut by 40--60\%); the moderate range
+$[0.55, 0.75]$ to \emph{alert} status; and the severe range $[0.65, 0.90]$ to
+\emph{emergency} status.  The uniform distribution within each range reflects
+uncertainty about the exact daily allocation, which is determined administratively
+and can vary day to day within the declared status level.  These parameter values
+are physically motivated placeholders; project teams should substitute
+site-specific regulatory data when available.
+
+\subsection{Computational Setup}
+\label{sec:case:setup}
+
+Algorithm parameters are given in Table~\ref{tab:params}.  The restriction
+sequences were generated with seed~0 for reproducibility; the population was
+initialised with a fixed random seed to ensure full experiment reproducibility.
+All experiments were run on a laptop with an Intel Core i7-1165G7 processor and
+16\,GB RAM under Windows~10, using Python~3.11.  The SGS decoder was implemented
+in pure Python and averages 6.6\,ms per evaluation on this portfolio.
+
+\begin{table}[h]
+\caption{MOEA/D hyperparameters.}
+\label{tab:params}
+\centering
+\begin{tabular}{lc}
+\toprule
+Parameter & Value \\
+\midrule
+Population size $H$ & 100 \\
+Neighbourhood size $T$ & 20 \\
+Generations $G$ & 300 \\
+Water-arbitrage attempts $w_a$ & 2 \\
+Crossover & Order Crossover (OX) \\
+Mutation & Swap, rate $1/N$ \\
+Aggregation & Weighted Tchebycheff (normalised) \\
+Random seed & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A \emph{naive baseline} schedule is constructed by assigning activity priorities in
+identity order (first-in-list priority, no water awareness) and decoding through the
+SGS.  This baseline represents the outcome of a conventional scheduler that
+optimises only for resource feasibility and project completion, ignoring the
+restriction sequence entirely.
+
+%% ============================================================
+\section{Results and Discussion}
+\label{sec:results}
+
+\subsection{Naive Baseline}
+\label{sec:results:naive}
+
+The naive baseline produces a feasible schedule with a tardiness cost of
+\euro36,500 and water violations that depend on the restriction scenario
+(Table~\ref{tab:baseline}).  The entire tardiness arises from project~P1 (73~days
+late at \euro500/day); projects~P2 and~P3 complete well within their deadlines owing
+to their longer contractual windows (811 and~1317~days, respectively).
+
+\begin{table}[h]
+\caption{Naive baseline performance by scenario.}
+\label{tab:baseline}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Scenario & $\Z{1}$ (\euro{}) & $\Z{2}$ (m$^3$) & P1 delay (days) \\
+\midrule
+Mild     & 36,500 &  44,610 & 73 \\
+Moderate & 36,500 &  98,473 & 73 \\
+Severe   & 36,500 & 174,982 & 73 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The baseline water violations escalate sharply with scenario severity, confirming
+that the baseline scheduler is completely blind to the restriction regime: it
+achieves the same tardiness in all three scenarios but incurs 3.9$\times$ more water
+violations in the severe scenario than in mild.
+
+\subsection{Pareto Fronts}
+\label{sec:results:pareto}
+
+Figure~\ref{fig:pareto} shows the Pareto fronts obtained by MOEA/D for each scenario,
+alongside the naive baseline point.  Table~\ref{tab:pf} summarises key statistics.
+
+\begin{table}[h]
+\caption{MOEA/D Pareto front statistics by scenario. $|PF|$: number of
+non-dominated solutions; Z$_1^{\min}$, Z$_1^{\max}$: tardiness range;
+Z$_2^{\min}$, Z$_2^{\max}$: water-violation range; best reduction relative to
+naive baseline.}
+\label{tab:pf}
+\centering
+\begin{tabular}{lccccccc}
+\toprule
+Scenario & $|PF|$ & $Z_1^{\min}$ & $Z_1^{\max}$ & $Z_2^{\min}$ & $Z_2^{\max}$ &
+$\Delta Z_1$ & $\Delta Z_2$ \\
+ & & (\euro{}) & (\euro{}) & (m$^3$) & (m$^3$) & (vs naive) & (vs naive) \\
+\midrule
+Mild     & 5 &      0 & 20,500 &  35,976 &  37,358 & $-100\%$ & $-19.4\%$ \\
+Moderate & 3 &      0 & 17,500 &  85,360 &  86,972 & $-100\%$ & $-13.3\%$ \\
+Severe   & 1 &      0 &      0 & 157,024 & 157,024 & $-100\%$ & $-10.3\%$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[p]
+\centering
+\begin{subfigure}[b]{0.65\textwidth}
+  \includegraphics[width=\textwidth]{../results/paper/mild/pareto_front.png}
+  \caption{Mild scenario ($\pi_R = 20\%$)}
+\end{subfigure}
+
+\medskip
+\begin{subfigure}[b]{0.65\textwidth}
+  \includegraphics[width=\textwidth]{../results/paper/moderate/pareto_front.png}
+  \caption{Moderate scenario ($\pi_R = 40\%$)}
+\end{subfigure}
+
+\medskip
+\begin{subfigure}[b]{0.65\textwidth}
+  \includegraphics[width=\textwidth]{../results/paper/severe/pareto_front.png}
+  \caption{Severe scenario ($\pi_R = 60\%$)}
+\end{subfigure}
+\caption{Pareto fronts produced by MOEA/D (filled circles) and naive baseline
+(cross). Axes: $Z_1$ = tardiness penalty (\euro), $Z_2$ = water violations (m$^3$).
+Note the different $Z_2$ scales across panels.}
+\label{fig:pareto}
+\end{figure}
+
+\paragraph{Zero tardiness is universally attainable.}
+In all three scenarios, MOEA/D finds schedules with $\Z{1} = 0$, eliminating the
+\euro36,500 tardiness penalty that the naive baseline incurs.  This demonstrates
+that the project network admits feasible schedules that satisfy P1's 329-day
+deadline; the naive priority ordering simply fails to discover them.
+
+\paragraph{Water-violation reductions diminish with drought severity.}
+The best $\Z{2}$ improvement is 19.4\% under mild, 13.3\% under moderate, and
+10.3\% under severe drought.  This monotonic decay is structurally expected: as the
+fraction of restriction days $\pi_R$ increases, the low-restriction windows that the
+water-arbitrage operator exploits become scarcer, limiting the reallocation margin.
+
+\paragraph{The mild Pareto front reveals a meaningful trade-off.}
+With $|PF| = 5$ solutions spanning $\Z{1} \in [0, 20{,}500]$\,\euro{} and
+$\Z{2} \in [35{,}976, 37{,}358]$\,m$^3$, the mild front provides a range of
+contractually distinct options.  Moving from the minimum-tardiness solution~A
+(zero penalties, 37,358\,m$^3$ violations) to the minimum-water solution~C
+(20,500\,\euro{} penalties, 35,976\,m$^3$ violations) achieves an additional
+1,382\,m$^3$ reduction in water violations at a cost of 20,500\,\euro{} — approximately
+\euro14.85 per m$^3$ saved.  This price of water-compliance represents a novel,
+directly actionable metric for project finance.
+
+\subsection{Representative Solutions for the Mild Scenario}
+\label{sec:results:solutions}
+
+Table~\ref{tab:solutions_mild} provides the three representative solutions — minimum
+tardiness~(A), balanced~(B) and minimum water~(C) — for the mild scenario, with a
+per-project breakdown.
+
+\begin{table}[h]
+\caption{Representative Pareto solutions — mild scenario. Constr.\ days: number
+of days in the active construction phase; $\eps$-sum: total water shock accumulated
+by the project; Water viol.: water violation contributed by the project (m$^3$).}
+\label{tab:solutions_mild}
+\centering
+\makebox[0pt]{%
+\begin{tabular}{llccccc}
+\toprule
+Solution & Project & $Z_1$ contrib.\ (\euro) & Delay (days) &
+Constr.\ days & $\eps$-sum & Water viol.\ (m$^3$) \\
+\midrule
+\multirow{3}{*}{A — min $Z_1$}
+  & P1 &      0 &  0 & 133 &  3.1 &    773 \\
+  & P2 &      0 &  0 & 345 & 32.5 & 11,390 \\
+  & P3 &      0 &  0 & 724 & 84.0 & 25,195 \\
+\midrule
+\multirow{3}{*}{B — balanced}
+  & P1 & 11,500 & 23 & 157 &  6.3 &  1,577 \\
+  & P2 &      0 &  0 & 345 & 28.2 &  9,871 \\
+  & P3 &      0 &  0 & 724 & 83.6 & 25,078 \\
+\midrule
+\multirow{3}{*}{C — min $Z_2$}
+  & P1 & 20,500 & 41 & 157 &  5.8 &  1,460 \\
+  & P2 &      0 &  0 & 345 & 33.5 & 11,708 \\
+  & P3 &      0 &  0 & 724 & 76.0 & 22,808 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Solution~A eliminates tardiness by compressing P1's construction phase to 133~active
+days, which minimises overlap with restriction periods at the cost of a lower
+$\eps$-sum.  Solutions~B and~C allow P1 to run longer (157~active days), increasing
+P1's exposure to restriction days but permitting the water-arbitrage operator to
+select lower-shock windows — evidenced by the smaller $\eps$-sum in Solution~C
+(5.8) versus Solution~A (3.1 with shorter exposure but denser restriction overlap).
+
+Project~P3 accounts for the largest water violations in all solutions, owing to its
+longest construction phase (724~active days) and highest nominal consumption
+(300\,m$^3$/day).  This asymmetry suggests that targeted water-mitigation contracts
+for~P3 (e.g.\ greywater recycling, drought-resistant finishing materials) could
+reduce portfolio-level $\Z{2}$ significantly without affecting the scheduling
+decision.
+
+\subsection{Structural Collapse under Severe Drought}
+\label{sec:results:severe}
+
+The severe scenario yields a degenerate Pareto front: a single solution with
+$\Z{1} = 0$ and $\Z{2} = 157{,}024$\,m$^3$.  This collapse persists at full
+production-run parameters ($H = 100$, $G = 300$) and is therefore a structural
+property of the problem rather than an algorithmic artefact.
+
+The explanation lies in the restriction fraction $\pi_R = 0.60$.  With 60\% of days
+under restriction, the available free windows are too narrow and too fragmented for
+the water-arbitrage operator to create meaningful differences between schedules.
+Almost any feasible schedule accumulates similar cumulative water violations, since
+the construction phases of P2~(345~days) and P3~(724~days) are long enough to
+intersect the restriction regime regardless of how they are shifted within the
+feasible region.  All non-dominated solutions therefore converge to approximately
+the same $\Z{2}$ value, and MOEA/D correctly reports a single point.
+
+This finding has a direct practical interpretation: under extreme drought, scheduling
+optimisation cannot materially reduce water violations.  The \emph{portfolio-level}
+mitigation strategy must then shift from scheduling (temporal reallocation of
+construction activity) to technological or contractual interventions (greywater
+recycling, emergency water rights, rainfall-indexed insurance).  Our framework
+quantifies this transition point — the drought severity at which scheduling loses
+leverage — which is itself a decision-relevant output.
+
+Figure~\ref{fig:convergence} shows the convergence curves for the mild scenario.
+Both ideal-point components ($Z_1^*$, $Z_2^*$) improve rapidly in the first
+50~generations and stabilise before generation~200, confirming that $G = 300$ is
+sufficient for convergence.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{../results/paper/mild/convergence.png}
+\caption{Convergence curves for the mild scenario: evolution of ideal-point
+components $Z_1^*$ (tardiness, left axis) and $Z_2^*$ (water violations, right
+axis) over 300 generations.}
+\label{fig:convergence}
+\end{figure}
+
+\subsection{Managerial Framework}
+\label{sec:results:mgmt}
+
+The Pareto front produced by MOEA/D is an input to, not a substitute for, the
+project manager's decision process.  We propose the following five-step framework
+for operationalising the results in practice:
+
+\begin{enumerate}
+  \item \textbf{Scenario assessment.}  At project initiation, the project team
+        selects the drought scenario consistent with the climatological outlook for
+        the construction window.  In the absence of meteorological forecasts,
+        the moderate scenario is recommended as the climatological baseline for
+        contemporary Mediterranean construction.
+
+  \item \textbf{Pareto front generation.}  Run MOEA/D with the scenario-specific
+        restriction sequence to obtain the trade-off curve between tardiness
+        penalties and water violations.
+
+  \item \textbf{Preferred solution selection.}  In cooperation with the client,
+        the project manager selects a point on the Pareto front according to the
+        relative financial exposure: if contractual penalties ($w_p$) are high,
+        prefer solution~A (zero tardiness); if regulatory water fines are steep,
+        prefer solution~C (minimum violations); solution~B offers an intermediate
+        compromise.
+
+  \item \textbf{Price of water compliance.}  Compute the marginal cost of reducing
+        water violations by one cubic metre (slope of the Pareto front between
+        adjacent solutions).  Compare this to the unit regulatory fine.  If the
+        marginal schedule cost exceeds the unit fine, the water-optimal schedule
+        is not economically justified and solution~A is preferred on financial
+        grounds alone.
+
+  \item \textbf{Re-optimisation trigger.}  If mid-project climate conditions
+        deviate significantly from the planned scenario (e.g.\ an unexpected
+        prolonged drought), re-run MOEA/D with an updated restriction sequence for
+        the remaining horizon, using the current partial schedule as a seed for the
+        initial population.
+\end{enumerate}
+
+%% ============================================================
+\section{Conclusions}
+\label{sec:conc}
+
+This paper introduced a bi-objective RCMPSP that simultaneously minimises tardiness
+penalties and stochastic daily water-quota violations in a construction portfolio.
+The stochastic component is modelled by a two-state Markov chain that replicates the
+persistent drought spells characteristic of Mediterranean climates, and is handled
+via Sample Average Approximation.  A MOEA/D algorithm with a domain-specific
+water-arbitrage local-search operator solves the problem and provides a Pareto front
+of trade-off schedules.
+
+Applied to a representative three-project portfolio (130~activities, 12~resources), the
+framework yielded three contributions of practical relevance:
+
+\begin{itemize}
+  \item \textbf{Tardiness elimination}: MOEA/D found zero-tardiness schedules in
+        all drought scenarios, recovering up to \euro36,500 in avoidable penalties
+        that the naive baseline incurred — without any relaxation of contractual
+        deadlines.
+
+  \item \textbf{Quantified water savings}: Water violations were reduced by
+        10.3--19.4\% relative to the unaware baseline, depending on drought
+        intensity.  Under mild and moderate drought, the framework identifies a
+        clear financial price of water compliance (approximately \euro14.85/m$^3$
+        in the mild case), directly usable in contract negotiations.
+
+  \item \textbf{Structural collapse as information}: The degenerate Pareto front
+        under severe drought ($|PF| = 1$) is a diagnostic output: it signals
+        that scheduling optimisation has exhausted its water-reduction potential
+        and that technological or contractual mitigation must take over.  This
+        transition point is scenario-specific and was not previously quantifiable
+        with existing scheduling frameworks.
+\end{itemize}
+
+Several directions merit future investigation.  First, the framework currently uses a
+single SAA realisation; a multi-scenario SAA (10--30~realisations) would provide
+confidence intervals on the Pareto front at the cost of longer computation.  Second,
+the addition of a resource-levelling objective would enable a tri-objective
+formulation; MOEA/D scales naturally to three objectives by extending the weight
+vectors to a two-dimensional simplex.  In both cases, the decision-relevant insight
+lies primarily in the shape of the trade-off and the existence of regime transitions,
+rather than in the precise numerical location of individual Pareto points.
+
+\medskip\noindent
+\textbf{Data and code availability:} The portfolio dataset is publicly available
+on GitHub as described in \citet{Lostumbo2025}.  The MOEA/D implementation and
+experiment scripts for the present paper are available at
+\url{https://github.com/marcbara/sustainable_rcmpsp}.
+
+\medskip\noindent
+\textbf{Disclosure statement:} The authors declare no conflict of interest.
+
+\medskip\noindent
+\textbf{Funding:} This research received no external funding.
+
+%% ============================================================
+\bibliography{refs}
+
+\end{document}
