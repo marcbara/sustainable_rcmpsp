@@ -40,6 +40,7 @@
 
 % ── Journal style ────────────────────────────────────────────
 \bibliographystyle{apalike}
+\renewcommand{\thetable}{\Roman{table}}   % ECAM requires Roman-numeral table numbering
 
 %% ============================================================
 \begin{document}
@@ -74,36 +75,33 @@ Corresponding author: Marc Bara Iniesta, \texttt{marcoantonio.bara@esade.edu}
 \begin{abstract}
 \noindent\textbf{Purpose} --
 Water quota violations are a growing financial liability for construction projects
-in drought-prone regions, yet existing scheduling models treat water as an unlimited
-resource.  This paper proposes a multi-objective scheduling framework for
-construction project portfolios subject to stochastic daily water-quota restrictions
-arising from drought regulations, enabling project managers to quantify and manage
-water-scarcity risk at portfolio level.
+in drought-prone regions, yet scheduling models treat water as an unlimited resource.
+This paper proposes a multi-objective framework for construction portfolios subject
+to stochastic daily water-quota restrictions arising from drought regulations,
+enabling managers to quantify and manage water-scarcity risk at portfolio level.
 
 \medskip\noindent\textbf{Design/methodology/approach} --
-The problem is formulated as a bi-objective Resource-Constrained Multi-Project
-Scheduling Problem~(RCMPSP) in which the objectives are tardiness cost and daily
-water-quota violations.  Daily restriction shocks follow a two-state Markov chain
-that captures the persistent drought spells of Mediterranean climates; stochasticity
-is handled via Sample Average Approximation~(SAA).  A MOEA/D algorithm is adapted
-to the RCMPSP context with a novel water-arbitrage local-search operator that
-explicitly exploits the temporal structure of drought spells.
+The bi-objective RCMPSP minimises tardiness cost and daily water-quota violations.
+Restriction shocks follow a two-state Markov chain capturing Mediterranean
+drought-spell persistence; stochasticity is handled via Sample Average
+Approximation~(SAA).  A MOEA/D algorithm is adapted to the RCMPSP with a novel
+water-arbitrage local-search operator that explicitly exploits the temporal
+structure of drought spells.
 
 \medskip\noindent\textbf{Findings} --
-Under mild to moderate drought the algorithm simultaneously eliminates all tardiness
-penalties while reducing water violations by up to~19.4\% relative to a naive
-baseline.  The Pareto front provides a directly readable marginal cost of
-compliance, giving concrete input for contract negotiations.  Under severe drought
-the trade-off curve collapses, revealing the threshold at which scheduling
-optimisation loses leverage and technological intervention becomes necessary.
+Under mild to moderate drought the algorithm eliminates all tardiness penalties
+while reducing water violations by up to~19.4\% relative to a naive baseline.
+The Pareto front yields a directly readable marginal cost of compliance for
+contract negotiations.  Under severe drought the front collapses, revealing the
+threshold at which technological rather than scheduling intervention is required.
 
 \medskip\noindent\textbf{Originality/value} --
 This is the first study to embed stochastic daily water-quota constraints into the
-RCMPSP and to introduce a problem-specific metaheuristic operator exploiting the
-persistence structure of drought spells.  Unlike concurrent exact-method approaches
-to RCMPSP \citep{Kong2025}, the proposed framework scales to realistic portfolio
-sizes under uncertainty.  The accompanying managerial framework translates
-Pareto-front outputs into actionable contract-level decisions.
+RCMPSP and introduce a problem-specific metaheuristic operator exploiting
+drought-spell persistence.  Unlike concurrent exact-method approaches
+\citep{Kong2025}, the framework scales to realistic portfolio sizes under
+uncertainty.  The managerial framework translates Pareto-front outputs into
+actionable contract-level decisions.
 
 \medskip\noindent
 \textbf{Keywords:} multi-project scheduling; water scarcity; drought risk;
@@ -145,24 +143,24 @@ only rearrange demand in time.  The scheduling decision must therefore exploit
 the temporal structure of drought spells: concentrating water-intensive construction
 in the free windows between restriction periods.
 
-This paper addresses that gap by making three contributions:
-
-\begin{enumerate}
-  \item \textbf{Problem formulation.}  We introduce a bi-objective RCMPSP in which
-        the two objectives are (i)~tardiness cost in euros and (ii)~daily water-quota
-        violations in cubic metres.  Restriction shocks follow a two-state Markov
-        chain that captures drought-spell persistence; stochasticity is handled via
-        Sample Average Approximation.
-  \item \textbf{Algorithm.}  We adapt MOEA/D \citep{Zhang2007} to the RCMPSP
-        context, using a priority-vector representation decoded by a Serial Schedule
-        Generation Scheme~(SGS) and augmented with a water-arbitrage local-search
-        operator that explicitly targets restriction windows.
-  \item \textbf{Managerial insight.}  We show that the value of water-aware
-        scheduling is scenario-dependent: it is highest under moderate drought — the
-        regime most aligned with current Mediterranean projections — and degenerates
-        under extreme scarcity where violations become structurally determined by the
-        climate regime rather than the schedule.
-\end{enumerate}
+This paper addresses that gap by introducing a bi-objective RCMPSP in which
+tardiness penalties and daily water-quota violations are jointly minimised under
+stochastic restriction conditions.  Restriction shocks follow a two-state Markov
+chain calibrated to Mediterranean drought-spell persistence; uncertainty is handled
+via Sample Average Approximation, absorbing the stochastic structure into the problem
+data rather than embedding it in the optimiser.  MOEA/D~\citep{Zhang2007} is adapted
+to the RCMPSP context through a priority-vector representation decoded by a Serial
+Schedule Generation Scheme~(SGS) and augmented with a water-arbitrage local-search
+operator that systematically moves water-intensive activities out of restriction
+windows by exploiting the temporal persistence of drought spells.  Applying this
+framework to a representative Mediterranean construction portfolio shows that the value
+of water-aware scheduling is strongly scenario-dependent: the algorithm produces rich
+trade-off frontiers under mild and moderate drought — the regime most consistent with
+current Iberian projections — while the same front collapses under extreme scarcity,
+signalling that violations are then climatically determined and that technological
+rather than scheduling interventions are required.  This transition from scheduling
+leverage to climate determination is itself a decision-relevant finding that existing
+frameworks cannot provide.
 
 The remainder of the paper is structured as follows.
 Section~\ref{sec:lit} reviews the relevant literature.
@@ -883,45 +881,39 @@ axis) over 300 generations.}
 \label{sec:results:mgmt}
 
 The Pareto front produced by MOEA/D is an input to, not a substitute for, the
-project manager's decision process.  We propose the following five-step framework
-for operationalising the results in practice:
+project manager's decision process.  Operationalising the results follows a natural
+sequential logic rooted in the structure of the trade-off.
 
-\begin{enumerate}
-  \item \textbf{Scenario assessment.}  At project initiation, the project team
-        selects the drought scenario consistent with the climatological outlook for
-        the construction window.  In the absence of meteorological forecasts,
-        the moderate scenario is recommended as the climatological baseline for
-        contemporary Mediterranean construction.
+At project initiation, the team selects the drought scenario consistent with the
+climatological outlook for the construction window.  In the absence of
+site-specific meteorological forecasts, the moderate scenario provides the
+appropriate conservative baseline for contemporary Mediterranean construction.
+With the scenario fixed, MOEA/D is run on the scenario-specific restriction
+sequence to produce the trade-off curve between tardiness penalties and water
+violations.
 
-  \item \textbf{Pareto front generation.}  Run MOEA/D with the scenario-specific
-        restriction sequence to obtain the trade-off curve between tardiness
-        penalties and water violations.
+Selecting a preferred solution requires the project manager to weigh the relative
+financial exposures against the shape of the front.  Under a lump-sum contract the
+contractor bears the full cost of delays, favouring the minimum-tardiness
+solution~A; under a cost-plus arrangement the client shares delay risk, shifting
+the balance toward the water-compliant solution~C; solution~B offers a staged
+intermediate compromise.  The key analytical input to this decision is the
+marginal cost of water compliance — the slope of the Pareto front between adjacent
+solutions.  Comparing this marginal schedule cost to the unit regulatory fine
+determines whether the water-optimal schedule is economically justified: if the
+fine per cubic metre is lower than the marginal cost of achieving it through
+rescheduling, solution~A is preferred on financial grounds alone.  The same price
+of compliance serves as a technology-procurement threshold — if an on-site
+water-recycling system costs less per cubic metre than the marginal schedule
+adjustment, capital investment in that technology dominates further schedule
+optimisation.
 
-  \item \textbf{Preferred solution selection.}  In cooperation with the client,
-        the project manager selects a point on the Pareto front according to the
-        relative financial exposure: if contractual penalties ($w_p$) are high,
-        prefer solution~A (zero tardiness); if regulatory water fines are steep,
-        prefer solution~C (minimum violations); solution~B offers an intermediate
-        compromise.  Under a lump-sum contract the contractor bears the full cost
-        of delays, favouring solution~A; under a cost-plus arrangement the client
-        shares delay risk, shifting the balance toward water compliance.
-
-  \item \textbf{Price of water compliance.}  Compute the marginal cost of reducing
-        water violations by one cubic metre (slope of the Pareto front between
-        adjacent solutions).  Compare this to the unit regulatory fine.  If the
-        marginal schedule cost exceeds the unit fine, the water-optimal schedule
-        is not economically justified and solution~A is preferred on financial
-        grounds alone.  This price of compliance also serves as a threshold for
-        technology procurement: if the per-m$^3$ cost of an on-site water-recycling
-        system is lower than the marginal schedule cost, investment in that
-        technology dominates further schedule adjustment.
-
-  \item \textbf{Re-optimisation trigger.}  If mid-project climate conditions
-        deviate significantly from the planned scenario (e.g.\ an unexpected
-        prolonged drought), re-run MOEA/D with an updated restriction sequence for
-        the remaining horizon, using the current partial schedule as a seed for the
-        initial population.
-\end{enumerate}
+Finally, the framework provides a re-optimisation trigger for mid-project use.
+Should climate conditions deviate materially from the planned scenario — an
+unexpected prolonged drought, for instance — MOEA/D is re-run on an updated
+restriction sequence for the remaining horizon, seeding the initial population
+from the current partial schedule.  This closes the loop between planning-phase
+optimisation and construction-phase execution.
 
 %% ============================================================
 \section{Conclusions}
@@ -935,28 +927,28 @@ via Sample Average Approximation.  A MOEA/D algorithm with a domain-specific
 water-arbitrage local-search operator solves the problem and provides a Pareto front
 of trade-off schedules.
 
-Applied to a representative three-project portfolio (130~activities, 12~resources), the
-framework yielded three contributions of practical relevance:
+Applied to a representative three-project portfolio (130~activities, 12~resources),
+the results demonstrate that water-aware scheduling delivers measurable financial
+value — but only within bounds set by the prevailing climate regime.  Under mild
+and moderate drought, MOEA/D recovered the full \euro36,500 tardiness penalty that
+the naive baseline incurred while simultaneously reducing water violations by
+13.3--19.4\%, achieving both objectives without relaxing any contractual deadline.
+The Pareto front makes this value financially tangible: the marginal cost of
+reducing water violations by one cubic metre — approximately \euro14.85/m$^3$ in
+the mild scenario — is directly usable as a threshold in contract negotiations and
+as a benchmark for evaluating water-saving technologies.
 
-\begin{itemize}
-  \item \textbf{Tardiness elimination}: MOEA/D found zero-tardiness schedules in
-        all drought scenarios, recovering up to \euro36,500 in avoidable penalties
-        that the naive baseline incurred — without any relaxation of contractual
-        deadlines.
-
-  \item \textbf{Quantified water savings}: Water violations were reduced by
-        10.3--19.4\% relative to the unaware baseline, depending on drought
-        intensity.  Under mild and moderate drought, the framework identifies a
-        clear financial price of water compliance (approximately \euro14.85/m$^3$
-        in the mild case), directly usable in contract negotiations.
-
-  \item \textbf{Structural collapse as information}: The degenerate Pareto front
-        under severe drought ($|PF| = 1$) is a diagnostic output: it signals
-        that scheduling optimisation has exhausted its water-reduction potential
-        and that technological or contractual mitigation must take over.  This
-        transition point is scenario-specific and was not previously quantifiable
-        with existing scheduling frameworks.
-\end{itemize}
+Under severe drought the picture changes fundamentally.  The Pareto front
+degenerates to a single point, not as a computational failure but as a structural
+finding: when 60\% of days are under restriction, the construction phases are too
+long and the free windows too narrow for any schedule to differentiate itself in
+terms of water compliance.  This transition from scheduling leverage to climate
+determination is itself a decision-relevant output — one that existing RCMPSP
+frameworks, which treat water as a fixed resource or aggregate volume metric,
+cannot produce.  Identifying the drought threshold beyond which scheduling
+optimisation should give way to greywater recycling, emergency water rights or
+rainfall-indexed insurance is therefore a contribution of the present work that
+extends beyond the numerical results.
 
 Several directions merit future investigation.  First, the framework currently uses a
 single SAA realisation; a multi-scenario SAA (10--30~realisations) would provide
@@ -981,6 +973,14 @@ experiment scripts for the present paper are available at
 
 \medskip\noindent
 \textbf{Funding:} This research received no external funding.
+
+\medskip\noindent
+\textbf{AI usage statement:} Claude~(Sonnet~4.6, Anthropic) was used to
+copy-edit portions of the manuscript --- specifically, to improve the clarity
+and grammatical structure of existing author-written text --- in accordance with
+Emerald's policy on permissible AI assistance.  No AI tool was used to generate
+research content, create new material, or produce results.  The authors take
+full responsibility for the accuracy, integrity, and originality of the work.
 
 %% ============================================================
 \bibliography{refs}
