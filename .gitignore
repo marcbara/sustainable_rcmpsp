@@ -19,6 +19,9 @@ paper/IJCM_submission_anonymous/
 *.out
 *.tmp*
 
+# Cover letters (submission correspondence, kept local only)
+coverletter.tex
+
 # Internal working documents
 RESEARCH.md
 
