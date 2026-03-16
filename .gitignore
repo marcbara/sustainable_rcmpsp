@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Legacy code (superseded)
+old-nsgaii/
+
+# Paper — submission folders (kept local only)
+paper/IJCM_submission_with_authors/
+paper/IJCM_submission_anonymous/
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.tmp*
+
+# Internal working documents
+RESEARCH.md
+
+# Reference documents (large binaries, not code)
+*.pdf
+*.docx
+*.xlsx
+
+# Claude internal
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+nul
