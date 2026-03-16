@@ -632,8 +632,8 @@ mean for inland Iberia during summer \citep{IPCC2021}.  The severe scenario
 (60\% restriction days, 21-day spells) reflects projections for the 2050 horizon
 under medium-emissions pathways \citep{IPCC2021}.  Spell durations of one to three
 weeks for the restriction state and two to five weeks for the free state are
-consistent with the synoptic persistence of high-pressure blocking systems that
-drive summer droughts in the western Mediterranean basin.
+consistent with the sustained high-pressure blocking that drives summer droughts
+in the western Mediterranean basin.
 
 The restriction severity ranges $[\eps^-, \eps^+]$ are calibrated to reflect
 observed regulatory practice in Spain and Portugal, where drought emergency
@@ -678,8 +678,7 @@ Random seed & 0 \\
 \end{table}
 
 A \emph{naive baseline} schedule is constructed by assigning activity priorities in
-identity order (first-in-list priority, no water awareness) and decoding through the
-SGS.  This baseline represents the outcome of a conventional scheduler that
+default list order (no water awareness) and decoding through the SGS.  This baseline represents the outcome of a conventional scheduler that
 optimises only for resource feasibility and project completion, ignoring the
 restriction sequence entirely.
 
@@ -957,9 +956,9 @@ this is standard practice in RCMPSP benchmarking \citep{Hartmann2022}, validatio
 against real project data from drought-affected regions --- including digitised
 contract records from Spain, California or south-eastern Australia --- would
 strengthen the empirical grounding of the approach and is a natural next step.
-First, the framework currently uses a single SAA realisation; a multi-scenario
-SAA (10--30~realisations) would provide confidence intervals on the Pareto front
-at the cost of longer computation.  Second, the addition of a resource-levelling
+First, the framework currently uses a single set of simulated restriction sequences;
+averaging over 10--30 independent sequences would provide confidence intervals on
+the Pareto front at the cost of longer computation.  Second, the addition of a resource-levelling
 objective would enable a tri-objective formulation; MOEA/D scales naturally to
 three objectives by extending the weight vectors to a two-dimensional simplex.
 In both cases, the decision-relevant insight lies primarily in the shape of the
