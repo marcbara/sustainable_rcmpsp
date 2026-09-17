@@ -1,0 +1,26 @@
+Solution Analysis — scenario: severe
+============================================================
+
+NAIVE BASELINE (identity priority, no water awareness)
+------------------------------------------------------------
+  Z1 =       36,500 EUR
+  Z2 =    174,981.7 m3
+  P1: tardiness=  73d  penalty=   36,500 EUR  water_violation=  16,009 m3
+  P2: tardiness=   0d  penalty=        0 EUR  water_violation=  57,088 m3
+  P3: tardiness=   0d  penalty=        0 EUR  water_violation= 101,884 m3
+
+PARETO FRONT SUMMARY  (|PF| = 1)
+------------------------------------------------------------
+  Z1 range:          0 —          0 EUR
+  Z2 range:  157,024.3 —  157,024.3 m3
+  vs naive baseline:
+    Best Z1 reduction : +100.0%
+    Best Z2 reduction : +10.3%
+
+SOLUTION A — Minimum tardiness  (best Z1)
+------------------------------------------------------------
+  Z1 =            0 EUR   (-100.0% vs naive)
+  Z2 =    157,024.3 m3    (-10.3% vs naive)
+  P1: tardiness=   0d  penalty=        0 EUR  constr_days= 116  eps_sum=  15.8  water_violation=   3,955 m3
+  P2: tardiness=   0d  penalty=        0 EUR  constr_days= 345  eps_sum= 149.9  water_violation=  52,470 m3
+  P3: tardiness=   0d  penalty=        0 EUR  constr_days= 724  eps_sum= 335.3  water_violation= 100,600 m3

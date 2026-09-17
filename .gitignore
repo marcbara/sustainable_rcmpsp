@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Legacy code (superseded)
+old-nsgaii/
+
+# Paper — manuscript sources (kept local only)
+paper/
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.tmp*
+
+# Cover letters (submission correspondence, kept local only)
+coverletter.tex
+
+# Internal working documents
+RESEARCH.md
+
+# Reference documents (large binaries, not code)
+*.pdf
+*.docx
+*.xlsx
+
+# Claude internal
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+nul
